@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- 日志存放路径 -->
+    <springProperty name="LOG_PATH" source="logging.path" defaultValue="./log"/>
+    <!-- 日志输出格式 -->
+<!--    <property name="log.pattern" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{20} - [%method,%line] - %msg%n"/>-->
+    <property name="log.pattern" value="%d{yyyy-MM-dd HH:mm:ss} [%thread] %magenta(%-5level) %green([%-35.35class][%line]) >>> %cyan(%msg) %n"/>
+
+    <property name="log.file" value="%d{yyyy-MM-dd HH:mm:ss} [%thread] %level [%class][%line] >>> %msg %n"/>
+
+    <!-- 控制台输出 -->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${log.pattern}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 测试环境+开发环境. 多个使用逗号隔开. -->
+    <springProfile name="dev,test">
+        <logger name="com.fanhoufang.blog" level="DEBUG" additivity="false">
+            <appender-ref ref="console"/>
+        </logger>
+    </springProfile>
+
+    <!-- 生产环境. -->
+    <springProfile name="pro">
+        <logger name="com.fanhoufang.blog" level="INFO" additivity="false">
+            <appender-ref ref="console"/>
+        </logger>
+    </springProfile>
+
+
+    <!-- 系统日志输出 -->
+    <appender name="file_info" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/sys-info.log</file>
+        <!-- 循环政策：基于时间创建日志文件 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 日志文件名格式 -->
+            <fileNamePattern>${LOG_PATH}/sys-info.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- 日志最大的历史 60天 -->
+            <maxHistory>60</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${log.file}</pattern>
+        </encoder>
+        <!--临界值日志过滤级别配置 -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <!-- 在日志配置级别的基础上过滤掉info级别以下的日志 -->
+            <level>INFO</level> 
+        </filter> 
+        
+    </appender>
+
+    <appender name="file_error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/sys-error.log</file>
+        <!-- 循环政策：基于时间创建日志文件 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 日志文件名格式 -->
+            <fileNamePattern>${LOG_PATH}/sys-error.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- 日志最大的历史 60天 -->
+            <maxHistory>60</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${log.file}</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <!-- 在日志配置级别的基础上过滤掉WARN级别以下的日志 -->
+            <level>WARN</level> 
+        </filter>
+    </appender>
+
+    <!-- 系统模块日志级别控制  -->
+    <logger name="com.fanhoufang" level="info"/>
+    <!-- Spring日志级别控制  -->
+    <logger name="org.springframework" level="warn"/>
+
+    <!-- 根日志配置 -->
+    <root level="info">
+        <appender-ref ref="console"/>
+        <appender-ref ref="file_info"/>
+        <appender-ref ref="file_error"/>
+    </root>
+</configuration> 

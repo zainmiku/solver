@@ -1,0 +1,24 @@
+# 开发配置文件
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/solver_platform?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: fan
+    password: fan123
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+    serialization:
+      WRITE_EMPTY_JSON_ARRAYS: false
+
+server:
+  port: 8080
+
+logging:
+  level:
+    com.fanhoufang.solver: debug
+
+# 解决方案平台开发环境配置文件  
+external:
+  api:
+    base-url: http://api.haoshenqi.top

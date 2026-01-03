@@ -1,0 +1,10 @@
+# 生产配置文件
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://rm-wz9gt1r5ii39z0yzbho.mysql.rds.aliyuncs.com:3306/blog?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: fanhoufang
+    password: 9ex%25J7btXsQ&Z
+
+server:
+  port: 8080
