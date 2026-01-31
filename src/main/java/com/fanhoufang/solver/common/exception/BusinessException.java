@@ -18,4 +18,9 @@ public class BusinessException extends RuntimeException{
         this.code = reeurnCode.getCode();
         this.errMsg = reeurnCode.getMsg();
     }
+
+        public  BusinessException(String message){
+        this.code = ReturnCode.CD999.getCode();
+        this.errMsg = message;
+    }
 }

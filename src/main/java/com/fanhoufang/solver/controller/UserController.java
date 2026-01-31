@@ -69,7 +69,7 @@ public class UserController {
     @GetMapping("get")
     public Long get() {
         Long selectCount = userRepository.count();
-        userRepository.lambdaQuery().eq(s -> s.getIsActive(), 1).one();
+        // userRepository.lambdaQuery().eq(s -> s.getIsActive(), 1).list();
         return selectCount;
     }
 

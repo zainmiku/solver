@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fanhoufang.solver.entity.po.ComputeServer;
 
 import com.fanhoufang.solver.repository.SreverRepository;
-
+import com.fanhoufang.solver.service.SreverService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+
 
 /**
  * <p>
@@ -30,9 +32,11 @@ import lombok.extern.slf4j.Slf4j;
 public class ServerController {
 
     private final SreverRepository sRepository;
+    private final SreverService sService;
 
     @GetMapping("get")
     public List<ComputeServer> get() {
+        log.info(Thread.currentThread().isVirtual()?"is Virtual":"not Virtual");
         log.info("info get all compute servers");
         log.debug("debug get all compute servers");
         return sRepository.list();
@@ -42,5 +46,19 @@ public class ServerController {
     public boolean add(@RequestBody ComputeServer server) {
         server.setId(null);
         return sRepository.save(server);
+    }
+
+    @GetMapping("getByCursor")
+    public void getByCursor() {
+        sService.getByCursor();
+    }
+
+    @GetMapping("getByCursor1")
+    public void getByCursor1() {
+        sService.getByCursor1();
+    }
+        @GetMapping("getErr")
+    public String getErr() {
+        return sService.getErr();
     }
 }

@@ -13,7 +13,7 @@ import com.fanhoufang.solver.common.lang.Result;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@RestControllerAdvice(basePackages = "com.fanhoufang.solver")
+@RestControllerAdvice(basePackages = "com.fanhoufang.solver.controller")
 public class GlobalExceptionHander {
 
 

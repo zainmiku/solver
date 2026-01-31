@@ -83,6 +83,7 @@ public class ComputeServer implements Serializable {
     /**
      * 创建时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
 
     /**
@@ -94,6 +95,7 @@ public class ComputeServer implements Serializable {
     /**
      * 最后心跳时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime lastHeartbeat;
 
 }

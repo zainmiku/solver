@@ -11,7 +11,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
 import tools.jackson.core.JacksonException;
-import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 
 
 @RequiredArgsConstructor // 为所有final字段生成构造器注入
@@ -19,7 +19,7 @@ import tools.jackson.databind.ObjectMapper;
 public class ResponseAdvice implements ResponseBodyAdvice<Object> {
 
 
-	private final ObjectMapper objectMapper;
+	private final JsonMapper jsonMapper;
     /**
      * 是否开启功能 true：是 
      */
@@ -42,7 +42,7 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
 	    //处理字符串类型数据，如果Controller返回String的话,进行处理
 	    if (o instanceof String msg) {
 		    try {
-			    return objectMapper.writeValueAsString(Result.success(msg));
+			    return jsonMapper.writeValueAsString(Result.success(msg));
 		    } catch (JacksonException e) {
 			    e.printStackTrace();
 		    }

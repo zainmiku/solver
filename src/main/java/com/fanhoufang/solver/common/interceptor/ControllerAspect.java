@@ -20,7 +20,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 
 /**
  * 类描述: 日志拦截器，打印controller层的入参和出参
@@ -36,7 +36,7 @@ public class ControllerAspect {
     // //用来记录请求进入的时间，防止多线程时出错，这里用了ThreadLocal
     // ThreadLocal<Long> startTime = new ThreadLocal<>();
 
-    private final ObjectMapper objectMapper;
+    private final JsonMapper jsonMapper;
 
     /**
      * 定义切入点，controller下面的所有类的所有公有方法，这里需要更改成自己项目的
@@ -62,11 +62,10 @@ public class ControllerAspect {
             return pjp.proceed();
         }
         HttpServletRequest request = sra.getRequest();
-        log.info("=========================================== START ===========================================");
-        log.info("URL          : {}" , request.getRequestURL().toString());
-        log.info("HTTP_METHOD  : {}" , request.getMethod());
-        log.info("IP           : {}" , request.getRemoteAddr());
-        log.info("CLASS_METHOD : {}" , pjp.getSignature().getDeclaringTypeName() + "." + pjp.getSignature().getName());
+        log.info(pjp.getSignature().getDeclaringTypeName() + "." + pjp.getSignature().getName() + "===== START ===========================================");
+        log.info("URL           : {}" , request.getRequestURL().toString());
+        log.info("HTTP_METHOD   : {}" , request.getMethod());
+        log.info("IP            : {}" , request.getRemoteAddr());
         Object[] args = pjp.getArgs();
         List<Object> logArgs = new ArrayList<>();
         for (Object arg : args) {
@@ -74,12 +73,12 @@ public class ControllerAspect {
                 logArgs.add(arg);
             }
         }
-        log.info("REQUEST ARGS : {}", objectMapper.writeValueAsString(logArgs));
+        log.info("REQUEST ARGS  : {}", jsonMapper.writeValueAsString(logArgs));
         long startTime = System.currentTimeMillis();
         try {
             Object response = pjp.proceed();
             // 3.出参打印
-            log.info("RESPONSE      :{}", response != null ? objectMapper.writeValueAsString(response) : "");
+            log.info("RESPONSE       :{}", response != null ? jsonMapper.writeValueAsString(response) : "");
             return response;
         } catch (Throwable e) {
             if (e instanceof MethodArgumentNotValidException) {
@@ -91,7 +90,7 @@ public class ControllerAspect {
         } finally {
             long endTime = System.currentTimeMillis();
             log.info("SPEND TIME   : {}ms", (endTime - startTime));
-            log.info("=========================================== END ===========================================");
+            log.info(pjp.getSignature().getDeclaringTypeName() + "." + pjp.getSignature().getName() + "===== END ===========================================");
         }
     }
 }
