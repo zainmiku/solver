@@ -37,14 +37,14 @@ public class GlobalExceptionHander {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(value = RuntimeException.class)
     public Result<String> hander (RuntimeException e){
-        log.error("运行异常:-----------{}",e.getMessage());
+        log.error("运行异常:-----------{}",e);
         return Result.fail(e.getMessage());
     }
     
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(value = Exception.class)
     public Result<String> hander (Exception e){
-        log.error("其他异常:-----------{}",e.getMessage());
+        log.error("其他异常:-----------{}",e);
         return Result.fail(e.getMessage());
     }
 }

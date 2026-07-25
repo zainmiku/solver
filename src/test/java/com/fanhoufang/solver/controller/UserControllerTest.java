@@ -16,6 +16,8 @@ import lombok.extern.slf4j.Slf4j;
 public class UserControllerTest {
 
     @Autowired
+    private UserController userController;
+    @Autowired
     private UserMapper userMapper;
 
     @Test
@@ -34,7 +36,11 @@ public class UserControllerTest {
 
     @Test
     void testTest() {
-        Long selectCount = userMapper.selectCount(null);
-        log.info(selectCount.toString());
+        userController.test();
+    }
+
+    @Test
+    void testGet() {
+        userController.get();
     }
 }

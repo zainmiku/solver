@@ -4,17 +4,27 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fanhoufang.solver.common.enums.ServerStatus;
+import com.fanhoufang.solver.common.handler.JsonbTypeHandler;
+import com.fanhoufang.solver.common.handler.ServerStatusTypeHandler;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
+import lombok.experimental.SuperBuilder;
 
 /**
  * 计算服务器
  */
 @TableName("compute_servers")
 @Data
+@NoArgsConstructor
+@Accessors(chain = true)
+@SuperBuilder
 public class ComputeServer implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -63,7 +73,8 @@ public class ComputeServer implements Serializable {
     /**
      * 服务器状态
      */
-    private String status;
+    @TableField(typeHandler = ServerStatusTypeHandler.class)
+    private ServerStatus status;
 
     /**
      * GPU数量
@@ -78,6 +89,7 @@ public class ComputeServer implements Serializable {
     /**
      * 服务器标签（JSON数组）
      */
+    @TableField(typeHandler = JsonbTypeHandler.class)
     private String tags;
 
     /**

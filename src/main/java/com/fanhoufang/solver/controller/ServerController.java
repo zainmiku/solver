@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fanhoufang.solver.entity.po.ComputeServer;
 
-import com.fanhoufang.solver.repository.SreverRepository;
-import com.fanhoufang.solver.service.SreverService;
+import com.fanhoufang.solver.repository.ServerRepository;
+import com.fanhoufang.solver.service.ServerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,8 +31,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor // 为所有final字段生成构造器注入
 public class ServerController {
 
-    private final SreverRepository sRepository;
-    private final SreverService sService;
+    private final ServerRepository sRepository;
+    private final ServerService sService;
 
     @GetMapping("get")
     public List<ComputeServer> get() {
